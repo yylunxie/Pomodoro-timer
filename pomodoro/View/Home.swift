@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 struct CircularSector: Shape {
     var startAngle: Angle
@@ -44,6 +45,9 @@ extension Color {
 
 struct Home: View {
     @EnvironmentObject var pomodoroModel: PomodoroModel
+    @State var setTime: Int = 0
+    @StateObject var delegate = PomodoroModel()
+    private let minutes = Array(0...10).map { $0 * 5 }
     var body: some View {
         NavigationStack {
             VStack(alignment: .center) {
@@ -52,47 +56,47 @@ struct Home: View {
                     ForEach(0..<60,id: \.self) {i in
                         Rectangle()
                             .fill(Color(hex: 0x8d8989))
-                        // 60/12 = 5
                             .frame(width: 2, height: (i % 5) == 0 ? 15 : 5)
-                            .offset(y: 160)
+                            .offset(y: 140)
                             .rotationEffect(.init(degrees: Double(i) * 6))
                     }
                     
                     Circle()
                         .fill(Color(hex: 0xf2d0cf))
-                        .frame(height: 230)
+                        .frame(height: 190)
                     
-                    CircularSector(startAngle: .degrees(0), endAngle: .degrees(pomodoroModel.timeRemaining / (60*60) * 360), radius: 115)
+                    CircularSector(startAngle: .degrees(0), endAngle: .degrees(pomodoroModel.timeRemaining / (60*60) * 360), radius: 95)
                         .fill(Color(hex: 0xe57b79))
-                        .frame(width: 200, height: 200)
+                        .frame(width: 150, height: 150)
                         .rotationEffect(.degrees(-90))
                     //                        .shadow(radius: 10)
                     Circle()
                         .fill(Color(hex: 0xf9f0ef))
-                        .frame(width: 65)
+                        .frame(width: 45)
                         .shadow(radius: 5)
                     
                     Rectangle()
                         .fill(Color(hex: 0xee383a))
-                        .frame(width: 10, height: 160)
+                        .frame(width: 10, height: 120)
                         .cornerRadius(.infinity)
                         .offset(y: 75)                        .rotationEffect(.degrees((pomodoroModel.timeRemaining / (60*60) * 360) + 180))
                         .shadow(color: Color(hex: 0xee383a, opacity: 0.8), radius: 5)
                     
                     Circle()
                         .fill(Color(hex: 0xfafafa))
-                        .frame(width: 50)
+                        .frame(width: 30)
                         .shadow(radius: 5)
                 }
-                .frame(maxWidth: 500)
+                .frame(maxWidth: 200)
+                .offset(y: 50)
                 
                 // Time
                 Text(formattedTime())
                     .font(.largeTitle)
                     .fontWeight(.bold)
-                    .offset(y: 75)
+                    .offset(y: 135)
                 
-                
+                // Play button
                 HStack {
                     Button {
                         pomodoroModel.isRunning.toggle()
@@ -106,15 +110,37 @@ struct Home: View {
                                 pomodoroModel.isRunning ? "stop.fill" : "play.fill")
                             .foregroundStyle(.foreground)
                             .frame(width: 50, height: 50)
-                            .font(.largeTitle)
-                            .offset(y: 40)
-                            .padding()
+                            .font(.largeTitle)                            .padding()
                     }
+                    .onAppear(perform: {
+                        
+                        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (_, _) in
+                        }
+                        
+                        UNUserNotificationCenter.current().delegate =  delegate
+                    })
+                    .alert(isPresented: $pomodoroModel.alert, content: {
+                        Alert(title: Text("Message"), message: Text("Reply Buttom Is Pressed!!!"), dismissButton: .destructive(Text("Ok")))
+                    })
+                }
+                .offset(y: 100)
+                
+                // Set time
+                Picker("選擇分鐘", selection: $setTime) {
+                    ForEach(minutes, id: \.self) { minute in
+                        Text("\(minute) min").tag(minute)
+                    }
+                }
+                .pickerStyle(.inline) // 或者選擇其他風格，如.segmented
+                .labelsHidden() // 隱藏標籤
+                .offset(y: 80)
+                .onChange(of: setTime) {
+                    setTime in pomodoroModel.updateTimeRemaining(setTime: setTime)
                 }
 
             }
             .padding(.horizontal, 30)
-            .navigationTitle("What's your focus?")
+//            .navigationTitle("What's your focus?")
             .navigationBarTitleDisplayMode(.inline)
         }
     }

@@ -12,6 +12,7 @@ struct pomodoroApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(PomodoroModel())
         }
     }
 }
