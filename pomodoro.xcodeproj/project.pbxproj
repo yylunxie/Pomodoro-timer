@@ -7,16 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		304F79242BC6B9A000BFAFA7 /* PomodoroModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304F79232BC6B9A000BFAFA7 /* PomodoroModel.swift */; };
+		304F79262BC6B9B300BFAFA7 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304F79252BC6B9B300BFAFA7 /* Home.swift */; };
+		304F79282BC6BAFB00BFAFA7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304F79272BC6BAFB00BFAFA7 /* ContentView.swift */; };
 		3061B19A2BBB00BD00E8817C /* pomodoroApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3061B1992BBB00BD00E8817C /* pomodoroApp.swift */; };
-		3061B19C2BBB00BD00E8817C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3061B19B2BBB00BD00E8817C /* ContentView.swift */; };
 		3061B19E2BBB00BF00E8817C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3061B19D2BBB00BF00E8817C /* Assets.xcassets */; };
 		3061B1A12BBB00BF00E8817C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3061B1A02BBB00BF00E8817C /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		304F79232BC6B9A000BFAFA7 /* PomodoroModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroModel.swift; sourceTree = "<group>"; };
+		304F79252BC6B9B300BFAFA7 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		304F79272BC6BAFB00BFAFA7 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContentView.swift; path = ../../../../Downloads/ContentView.swift; sourceTree = "<group>"; };
 		3061B1962BBB00BD00E8817C /* pomodoro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pomodoro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3061B1992BBB00BD00E8817C /* pomodoroApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pomodoroApp.swift; sourceTree = "<group>"; };
-		3061B19B2BBB00BD00E8817C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3061B19D2BBB00BF00E8817C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3061B1A02BBB00BF00E8817C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -32,6 +36,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		304F79202BC6B97200BFAFA7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				304F79252BC6B9B300BFAFA7 /* Home.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		304F79222BC6B98500BFAFA7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				304F79232BC6B9A000BFAFA7 /* PomodoroModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		3061B18D2BBB00BD00E8817C = {
 			isa = PBXGroup;
 			children = (
@@ -51,8 +71,10 @@
 		3061B1982BBB00BD00E8817C /* pomodoro */ = {
 			isa = PBXGroup;
 			children = (
+				304F79222BC6B98500BFAFA7 /* Model */,
+				304F79202BC6B97200BFAFA7 /* View */,
 				3061B1992BBB00BD00E8817C /* pomodoroApp.swift */,
-				3061B19B2BBB00BD00E8817C /* ContentView.swift */,
+				304F79272BC6BAFB00BFAFA7 /* ContentView.swift */,
 				3061B19D2BBB00BF00E8817C /* Assets.xcassets */,
 				3061B19F2BBB00BF00E8817C /* Preview Content */,
 			);
@@ -137,7 +159,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3061B19C2BBB00BD00E8817C /* ContentView.swift in Sources */,
+				304F79242BC6B9A000BFAFA7 /* PomodoroModel.swift in Sources */,
+				304F79262BC6B9B300BFAFA7 /* Home.swift in Sources */,
+				304F79282BC6BAFB00BFAFA7 /* ContentView.swift in Sources */,
 				3061B19A2BBB00BD00E8817C /* pomodoroApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

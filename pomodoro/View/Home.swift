@@ -42,33 +42,31 @@ extension Color {
     }
 }
 
-struct ContentView: View {
-    @State private var timeRemaining: TimeInterval = 60 * 25
-    @State private var timer: Timer?
-    @State private var isRunning: Bool = false
+struct Home: View {
+    @EnvironmentObject var pomodoroModel: PomodoroModel
     var body: some View {
         NavigationStack {
             VStack(alignment: .center) {
+                // Clock
                 ZStack {
-                    
                     ForEach(0..<60,id: \.self) {i in
                         Rectangle()
                             .fill(Color(hex: 0x8d8989))
-                            // 60/12 = 5
+                        // 60/12 = 5
                             .frame(width: 2, height: (i % 5) == 0 ? 15 : 5)
                             .offset(y: 160)
                             .rotationEffect(.init(degrees: Double(i) * 6))
                     }
-        
+                    
                     Circle()
                         .fill(Color(hex: 0xf2d0cf))
                         .frame(height: 230)
-                        
-                    CircularSector(startAngle: .degrees(0), endAngle: .degrees(timeRemaining / (60*60) * 360), radius: 115)
+                    
+                    CircularSector(startAngle: .degrees(0), endAngle: .degrees(pomodoroModel.timeRemaining / (60*60) * 360), radius: 115)
                         .fill(Color(hex: 0xe57b79))
                         .frame(width: 200, height: 200)
                         .rotationEffect(.degrees(-90))
-//                        .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
+                    //                        .shadow(radius: 10)
                     Circle()
                         .fill(Color(hex: 0xf9f0ef))
                         .frame(width: 65)
@@ -78,9 +76,9 @@ struct ContentView: View {
                         .fill(Color(hex: 0xee383a))
                         .frame(width: 10, height: 160)
                         .cornerRadius(.infinity)
-                        .offset(y: 75)                        .rotationEffect(.degrees((timeRemaining / (60*60) * 360) + 180))
+                        .offset(y: 75)                        .rotationEffect(.degrees((pomodoroModel.timeRemaining / (60*60) * 360) + 180))
                         .shadow(color: Color(hex: 0xee383a, opacity: 0.8), radius: 5)
-                        
+                    
                     Circle()
                         .fill(Color(hex: 0xfafafa))
                         .frame(width: 50)
@@ -88,6 +86,7 @@ struct ContentView: View {
                 }
                 .frame(maxWidth: 500)
                 
+                // Time
                 Text(formattedTime())
                     .font(.largeTitle)
                     .fontWeight(.bold)
@@ -96,14 +95,15 @@ struct ContentView: View {
                 
                 HStack {
                     Button {
-                        isRunning.toggle()
-                        if isRunning {
-                            startTimer()
+                        pomodoroModel.isRunning.toggle()
+                        if pomodoroModel.isRunning {
+                            pomodoroModel.startTimer()
                         } else {
-                            stopTimer()
+                            pomodoroModel.stopTimer()
                         }
                     } label: {
-                        Image(systemName: isRunning ? "stop.fill" : "play.fill")
+                        Image(systemName:
+                                pomodoroModel.isRunning ? "stop.fill" : "play.fill")
                             .foregroundStyle(.foreground)
                             .frame(width: 50, height: 50)
                             .font(.largeTitle)
@@ -111,38 +111,26 @@ struct ContentView: View {
                             .padding()
                     }
                 }
+
             }
             .padding(.horizontal, 30)
             .navigationTitle("What's your focus?")
             .navigationBarTitleDisplayMode(.inline)
         }
     }
-    
+        
     private func formattedTime() -> String {
-        let minutes = Int(timeRemaining) / 60
-        let second = Int(timeRemaining) % 60
+        let minutes = Int(pomodoroModel.timeRemaining) / 60
+        let second = Int(pomodoroModel.timeRemaining) % 60
         return String(format: "%02d:%02d", minutes, second)
     }
-    
-    private func startTimer() {
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-            if timeRemaining > 0 {
-                timeRemaining -= 1
-            } else {
-                stopTimer()
-            }
-        }
-    }
-    
-    private func stopTimer() {
-        isRunning = false
-        timer?.invalidate()
-        timeRemaining = 60 * 25
+
+}
+
+struct Home_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+            .environmentObject(PomodoroModel())
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
